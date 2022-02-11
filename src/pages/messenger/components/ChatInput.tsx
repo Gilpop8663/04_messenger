@@ -3,13 +3,19 @@ import ChatInputStyle from 'assets/styles/ChatInputStyle';
 import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
 import moment from 'moment';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/reducers';
 
 const { ChatInputContainer, InputWrapper, TextArea, SendButton, SendIcon } =
   ChatInputStyle;
 
 interface MessageInfoProps {
+  userId: string;
+  userName: string;
   content: string;
   date: string;
+  profileImage: string;
 }
 
 interface ChatInputProps {
@@ -18,6 +24,7 @@ interface ChatInputProps {
 }
 
 export default function ChatInput({ onChange }: ChatInputProps) {
+  const auth = useSelector((state: RootState) => state.authReducer);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -27,14 +34,17 @@ export default function ChatInput({ onChange }: ChatInputProps) {
       setButtonDisabled(true);
     }
   };
-
   const sendMessage = () => {
     if (messageText) {
       const chatInfo: MessageInfoProps = {
+        userId: auth.userId,
+        userName: auth.userId,
         content: messageText,
-        date: moment(new Date()).format('yyyy-mm-dd hh:MM:ss'),
+        profileImage: auth.profileImage,
+        date: moment().format('yyyy-mm-dd hh:MM:ss'),
       };
-      onChange('sendMessageInfo', chatInfo);
+      onChange('message', chatInfo);
+
       setMessageText('');
       setButtonDisabled(true);
     }

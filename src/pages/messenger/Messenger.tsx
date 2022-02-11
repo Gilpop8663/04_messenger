@@ -12,15 +12,10 @@ interface MessagengerProps {
   profileImage: string;
 }
 
-
 interface ChatInputProps {
   content: string;
   date: string;
 }
-
-
-
-  
 
 const CHAT = 'chat';
 const REPLY = 'reply';
@@ -33,18 +28,17 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
   const [deleteMessage, setDeleteMessage] = useState<MessageListProps>();
   const [messageList, setMessageList] = useState<Array<MessageListProps>>([]); // 모든 메세지
   const [sendMessageInfo, setSendMessageInfo] = useState<object>({});
-
+  const [count, setCount] = useState(0);
   const showModal = useSelector(
     (state: RootState) => state.switReducer.showModal
   );
 
   const { response, onApiRequest } = useFetch(apiParams);
-
+  console.log(response);
   useEffect(() => {
-    if (!response) return;
-
+    if (!response?.data) return;
     setMessageList(response.data);
-  }, [response]);
+  }, [response?.data]);
 
   useEffect(() => {
     if (latestConversationRef.current === null) return;
@@ -62,13 +56,14 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
           ...apiParams,
           method: 'POST',
           params: {
-            userId: 'test',
-            userName: 'user test',
-            profileImage: 'url',
-            content: data.text,
+            userId: data.userId,
+            userName: data.userName,
+            profileImage: data.profileImage,
+            content: data.content,
             date: data.date,
           },
         });
+        setCount((prev) => prev + 1);
         break;
 
       case CHAT:
@@ -120,7 +115,6 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
 
   return (
     <div>
-
       <Header />
       <MessageContainer
         data={messageList}
@@ -128,8 +122,7 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
         onClickReply={(e) => onClick(e, REPLY)}
         onClickDelete={(e) => onClick(e, DELETE)}
       />
-      <ChatInput onChange={() => onChange(CHAT)} />
-
+      <ChatInput onChange={onChange} />
     </div>
   );
 }

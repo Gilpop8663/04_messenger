@@ -10,15 +10,15 @@ export default function useFetch(args: requestParamsProps) {
     const getData = async () => {
       const res = await HttpUtil.requestApi(requestParams);
       const { msg, data } = res;
-
+      console.log(data);
       if (!!msg) return;
 
       setResponse(data);
     };
     getData();
-  }, [requestParams]);
+  }, [requestParams, HttpUtil.requestApi(requestParams)]);
 
-  function onApiRequest(params: requestParamsProps) {
+  async function onApiRequest(params: requestParamsProps) {
     setRequestParams(params);
   }
 

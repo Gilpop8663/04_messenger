@@ -24,9 +24,9 @@ export default function MessageContainer({
 }: MessageContainerProps) {
   return (
     <div ref={WrapperRef}>
-      {data.map((item) => (
+      {data.map((item, i) => (
         <Message
-          key={item.userId}
+          key={i}
           attr={item}
           onClickReply={onClickReply}
           onClickDelete={onClickDelete}
