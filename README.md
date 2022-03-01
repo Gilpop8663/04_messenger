@@ -1,6 +1,9 @@
 ## 배포 주소
 
-<a href="https://gilpop8663.github.io/04_messenger/">배포 사이트</a>
+## <a href="https://gilpop8663.github.io/04_messenger/">배포 사이트</a>
+
+## 회고록
+## <a href="https://hell-of-company-builder.tistory.com/259?category=921712">블로그 회고록</a>
 
 ## 로그인 아이디/비밀번호
 
